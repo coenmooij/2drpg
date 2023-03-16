@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'sass:color';
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  font-family: 'Press Start 2P', monospace;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height:100%;
+}
+
+body {
+  background-color: color.adjust(hotpink, $hue: -80%);
+}
+
+main {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+canvas {
+  margin: 0 auto;
+  width: 800px;
+  height: 600px;
+  background-color: black;
+}
+
+header {
+  background-color: #232323;
+  margin: 0;
+  color: whitesmoke;
+  padding: 2rem;
+  text-align: center;
+}
