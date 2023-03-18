@@ -23,18 +23,18 @@ export class Renderer {
     const grassTile = new Image();
     grassTile.src = 'assets/tiles/grass.png';
 
-      for(let x = 0; x < Settings.MapWidth ;x += Settings.TileSize) {
-        for(let y = 0; y < Settings.MapHeight; y += Settings.TileSize) {
-          this.context.drawImage(grassTile, x, y);
-        }
+    for (let x = 0; x < Settings.MapWidth; x += Settings.TileSize) {
+      for (let y = 0; y < Settings.MapHeight; y += Settings.TileSize) {
+        this.context.drawImage(grassTile, x, y);
       }
+    }
   }
 
   private drawPlayer(frame: number): void {
     // TODO : Don't create new images everytime, preload in html and create array of them in memory
     //  e.g. sprites['player']['up'] = 'player_up.png';
     const image = new Image();
-    image.src = 'assets/sprites/player_down_4.png';
+    image.src = 'assets/sprites/player_down.png';
 
     const numberOfEqualFrames = Settings.FPS / Settings.SpriteFPS;
     const currentPlayerFrame = Math.floor((frame - 1) / numberOfEqualFrames);
@@ -42,6 +42,15 @@ export class Renderer {
     const middleTileX = (Settings.MapWidth / 2) - (Settings.TileSize / 2);
     const middleTileY = (Settings.MapHeight / 2) - (Settings.TileSize / 2);
 
-    this.context.drawImage(image, currentPlayerFrame * 32, 0, 32, 32, middleTileX, middleTileY, 16, 16);
+    this.context.drawImage(
+      image,
+      currentPlayerFrame * Settings.TileSize,
+      0, Settings.TileSize,
+      Settings.TileSize,
+      middleTileX,
+      middleTileY,
+      Settings.TileSize,
+      Settings.TileSize
+    );
   }
 }
