@@ -1,5 +1,5 @@
-export const Configuration = {
-  FPS: 24,
+export const Settings = {
+  FPS: 4,
   SpriteFPS: 4,
   TileSize: 16,
   MapWidth: 256,

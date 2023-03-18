@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Configuration } from '../configuration';
-import { Renderer } from '../render/renderer';
+import { Settings, Renderer } from '../game';
 
 @Component({
   selector: 'app-canvas',
@@ -24,7 +23,7 @@ export class CanvasComponent implements AfterViewInit {
 
   private animate(timestamp: DOMHighResTimeStamp): void {
     const milliseconds: number = timestamp % 1000;
-    const millisecondsPerFrame: number = 1000 / Configuration.FPS;
+    const millisecondsPerFrame: number = 1000 / Settings.FPS;
     const currentFrame = Math.floor(milliseconds / millisecondsPerFrame) + 1;
 
     if (this.currentFrame !== currentFrame) {

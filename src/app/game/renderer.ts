@@ -1,4 +1,4 @@
-import { Configuration } from '../configuration';
+import { Settings } from './settings';
 
 export class Renderer {
   private canvas!: HTMLCanvasElement;
@@ -23,8 +23,8 @@ export class Renderer {
     const grassTile = new Image();
     grassTile.src = 'assets/tiles/grass.png';
 
-      for(let x = 0; x < Configuration.MapWidth ;x += Configuration.TileSize) {
-        for(let y = 0; y < Configuration.MapHeight; y += Configuration.TileSize) {
+      for(let x = 0; x < Settings.MapWidth ;x += Settings.TileSize) {
+        for(let y = 0; y < Settings.MapHeight; y += Settings.TileSize) {
           this.context.drawImage(grassTile, x, y);
         }
       }
@@ -36,11 +36,11 @@ export class Renderer {
     const image = new Image();
     image.src = 'assets/sprites/player_down_4.png';
 
-    const numberOfEqualFrames = Configuration.FPS / Configuration.SpriteFPS;
+    const numberOfEqualFrames = Settings.FPS / Settings.SpriteFPS;
     const currentPlayerFrame = Math.floor((frame - 1) / numberOfEqualFrames);
 
-    const middleTileX = (Configuration.MapWidth / 2) - (Configuration.TileSize / 2);
-    const middleTileY = (Configuration.MapHeight / 2) - (Configuration.TileSize / 2);
+    const middleTileX = (Settings.MapWidth / 2) - (Settings.TileSize / 2);
+    const middleTileY = (Settings.MapHeight / 2) - (Settings.TileSize / 2);
 
     this.context.drawImage(image, currentPlayerFrame * 32, 0, 32, 32, middleTileX, middleTileY, 16, 16);
   }
