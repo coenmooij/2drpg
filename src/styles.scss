@@ -12,6 +12,7 @@
 
 html, body {
   height:100%;
+  min-width: 256px;
 }
 
 body {
@@ -19,18 +20,39 @@ body {
 }
 
 main {
+  min-width: 256px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
 }
 
+$canvasBaseSize: 256px;
+
 canvas {
   margin: 0 auto;
-  width: 512px;
-  height: 288px;
+  width: $canvasBaseSize;
+  height: $canvasBaseSize;
   background-color: white;
+  image-rendering: pixelated;
+
+  @media (min-width: 2 * $canvasBaseSize) {
+    width: 2 * $canvasBaseSize;
+    height: 2 * $canvasBaseSize;
+  }
+
+  @media (min-width: 3 * $canvasBaseSize) {
+    width: 3 * $canvasBaseSize;
+    height: 3 * $canvasBaseSize;
+  }
+
+  @media (min-width: 4 * $canvasBaseSize) {
+    width: 4 * $canvasBaseSize;
+    height: 4 * $canvasBaseSize;
+  }
 }
+
+
 
 header {
   background-color: #232323;
