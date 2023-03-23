@@ -1,0 +1,19 @@
+$canvasBaseSize: 256px;
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.canvas {
+  margin: 0;
+  width: 100%;
+  image-rendering: pixelated;
+}
+
+.canvas--has-side-borders {
+  width: calc(100vh / .5625);
+}

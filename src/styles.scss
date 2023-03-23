@@ -1,63 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'sass:color';
 
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
-  font-family: 'Press Start 2P', monospace;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 html, body {
-  height:100%;
-  min-width: 256px;
-}
-
-body {
-  background-color: color.adjust(hotpink, $hue: -80%);
-}
-
-main {
-  min-width: 256px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-$canvasBaseSize: 256px;
-
-canvas {
-  margin: 0 auto;
-  width: $canvasBaseSize;
-  height: $canvasBaseSize;
-  background-color: white;
-  image-rendering: pixelated;
-
-  @media (min-width: 2 * $canvasBaseSize) {
-    width: 2 * $canvasBaseSize;
-    height: 2 * $canvasBaseSize;
-  }
-
-  @media (min-width: 3 * $canvasBaseSize) {
-    width: 3 * $canvasBaseSize;
-    height: 3 * $canvasBaseSize;
-  }
-
-  @media (min-width: 4 * $canvasBaseSize) {
-    width: 4 * $canvasBaseSize;
-    height: 4 * $canvasBaseSize;
-  }
-}
-
-
-
-header {
+  height: 100%;
   background-color: #232323;
-  margin: 0;
-  color: whitesmoke;
-  padding: 2rem;
-  text-align: center;
 }
