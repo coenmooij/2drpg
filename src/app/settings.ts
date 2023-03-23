@@ -6,4 +6,6 @@ export const Settings = {
   SpriteHeight: 24,
   MapWidth: 256,
   MapHeight: 144,
+  ChunkWidth: 16,
+  ChunkHeight: 16,
 }

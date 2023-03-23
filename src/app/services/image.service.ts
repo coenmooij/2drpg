@@ -1,11 +1,13 @@
-import { Asset } from './asset.enum';
+import { Injectable } from '@angular/core';
+import { Asset } from '../collections';
 
+@Injectable({providedIn: 'root'})
 export class ImageService {
 
   public images: { [key: string]: HTMLImageElement } = {};
 
   public loadImages(): void {
-    Object.values(Asset).forEach((asset: string) => {
+    Object.values(Asset).forEach((asset: Asset) => {
       this.images[asset] = new Image();
       this.images[asset].src = `assets/${asset}.png`;
     });

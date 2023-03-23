@@ -1,4 +1,4 @@
-import { Direction } from './direction.enum';
+import { Direction } from '../enums';
 
 export class Character {
   private direction: Direction = Direction.Down;

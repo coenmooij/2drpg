@@ -1,19 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CanvasComponent } from './canvas';
-import { RoutingModule } from './routing';
 import { AppComponent } from './app.component';
+import { CanvasComponent } from './canvas';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CanvasComponent
-  ],
-  imports: [
-    BrowserModule,
-    RoutingModule
-  ],
+  declarations: [AppComponent, CanvasComponent],
+  imports: [BrowserModule],
   bootstrap: [AppComponent],
-  providers: [{ provide: 'Window', useValue: window}]
+  providers: [{provide: 'Window', useValue: window}]
 })
 export class AppModule {}
