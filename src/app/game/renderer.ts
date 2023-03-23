@@ -1,4 +1,6 @@
 import { Asset } from './asset.enum';
+import { Game } from './game';
+import { GameMode } from './game-mode';
 import { ImageService } from './image.service';
 import { Settings } from './settings';
 
@@ -6,9 +8,11 @@ export class Renderer {
   private canvas!: HTMLCanvasElement;
   private context!: CanvasRenderingContext2D;
   private imageService!: ImageService;
+  private game!: Game;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, game: Game) {
     this.canvas = canvas;
+    this.game = game;
     this.context = <CanvasRenderingContext2D>canvas.getContext('2d');
     this.imageService = new ImageService();
     this.imageService.loadImages();
@@ -16,6 +20,39 @@ export class Renderer {
 
   public render(frame: number): void {
     this.clearCanvas();
+    switch (this.game.getMode()) {
+      case GameMode.Level:
+        this.renderGame(frame);
+        break;
+      case GameMode.Start:
+        this.renderTitleScreen(frame);
+        break;
+    }
+  }
+
+  private renderTitleScreen(frame: number): void {
+    const image = this.imageService.getImage(Asset.ScreenStart);
+
+    // Background
+    this.context.drawImage(image, 0, 0);
+
+    // Textbox
+    this.context.globalAlpha = .4;
+    this.context.fillStyle = 'white';
+    this.context.fillRect(44, 74, 166, 32);
+    this.context.globalAlpha = 1;
+
+    // Text
+    this.context.textAlign = 'center';
+    this.context.font = '8px "Press Start 2P"';
+    this.context.fillStyle = 'navy';
+    if (frame > Settings.FPS / 4) {
+      this.context.fillText('PRESS \'A\'', 128, 88);
+    }
+    this.context.fillText('to start the game...', 128, 100);
+  }
+
+  private renderGame(frame: number): void {
     this.drawMap(frame);
     this.drawPlayer(frame);
   }
@@ -46,7 +83,8 @@ export class Renderer {
     this.context.drawImage(
       image,
       currentPlayerFrame * Settings.TileSize,
-      0, Settings.TileSize,
+      0,
+      Settings.TileSize,
       Settings.TileSize,
       middleTileX,
       middleTileY,

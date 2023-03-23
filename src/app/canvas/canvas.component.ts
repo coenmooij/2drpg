@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Inject, ViewChild } from '@angular/core';
 import { Renderer, Settings } from '../game';
+import { Game } from '../game';
 
 const GAME_RATIO = .5625; // 9 / 16 for 16:9 ratio
 
@@ -21,12 +22,12 @@ export class CanvasComponent implements AfterViewInit {
   private renderer!: Renderer;
   private currentFrame: number = 0; // 0 initial, when running between 1 - FPS
 
-  constructor(@Inject('Window') private window: Window) {
+  constructor(@Inject('Window') private window: Window, private game: Game) {
   }
 
   public ngAfterViewInit(): void {
     setTimeout(() => this.onResize());
-    this.renderer = new Renderer(this.canvasReference.nativeElement);
+    this.renderer = new Renderer(this.canvasReference.nativeElement, this.game);
 
     this.requestAnimationFrame();
   }

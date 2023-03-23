@@ -3,5 +3,5 @@ export const Settings = {
   SpriteFPS: 4,
   TileSize: 16,
   MapWidth: 256,
-  MapHeight: 256,
+  MapHeight: 144,
 }
