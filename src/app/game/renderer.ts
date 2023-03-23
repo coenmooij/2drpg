@@ -1,4 +1,5 @@
 import { Asset } from './asset.enum';
+import { Direction } from './direction.enum';
 import { Game } from './game';
 import { GameMode } from './game-mode';
 import { ImageService } from './image.service';
@@ -71,25 +72,42 @@ export class Renderer {
     }
   }
 
+  // TODO : Make code generic for all 'Characters'
   private drawPlayer(frame: number): void {
-    const image = this.imageService.getImage(Asset.SpritePlayerDown);
+    const player = this.game.getPlayer();
+    const direction = player.getDirection();
+
+    // TODO : Make this more easier with combined sprite sheets per character (4x4)
+    let asset = Asset.SpritePlayerDown;
+    switch (direction) {
+      case Direction.Up:
+        asset = Asset.SpritePlayerUp;
+        break;
+      case Direction.Left:
+        asset = Asset.SpritePlayerLeft;
+        break;
+      case Direction.Right:
+        asset = Asset.SpritePlayerRight;
+        break;
+    }
+    const image = this.imageService.getImage(asset);
 
     const numberOfEqualFrames = Settings.FPS / Settings.SpriteFPS;
-    const currentPlayerFrame = Math.floor((frame - 1) / numberOfEqualFrames);
+    const currentPlayerFrame = player.isMoving() ? Math.floor((frame - 1) / numberOfEqualFrames) : 0;
 
     const middleTileX = (Settings.MapWidth / 2) - (Settings.TileSize / 2);
     const middleTileY = (Settings.MapHeight / 2) - (Settings.TileSize / 2);
 
     this.context.drawImage(
       image,
-      currentPlayerFrame * Settings.TileSize,
+      currentPlayerFrame * Settings.SpriteWidth,
       0,
-      Settings.TileSize,
-      Settings.TileSize,
+      Settings.SpriteWidth,
+      Settings.SpriteHeight,
       middleTileX,
-      middleTileY,
-      Settings.TileSize,
-      Settings.TileSize
+      middleTileY - (Settings.SpriteHeight - Settings.TileSize),
+      Settings.SpriteWidth,
+      Settings.SpriteHeight
     );
   }
 }
