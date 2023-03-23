@@ -15,6 +15,10 @@ export class CanvasComponent implements AfterViewInit {
     this.onResize();
   }
 
+  @HostListener('document:keypress', ['$event']) public documentKeypress(event: KeyboardEvent): void {
+    this.handleInput(event.key);
+  }
+
   @ViewChild('canvas') public canvasReference!: ElementRef<HTMLCanvasElement>;
 
   public hasSideBorders = false;
@@ -30,6 +34,10 @@ export class CanvasComponent implements AfterViewInit {
     this.renderer = new Renderer(this.canvasReference.nativeElement, this.game);
 
     this.requestAnimationFrame();
+  }
+
+  private handleInput(key: string): void {
+    this.game.handleKey(key);
   }
 
   private onResize(): void {

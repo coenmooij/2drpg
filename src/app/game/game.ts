@@ -9,4 +9,11 @@ export class Game {
   public getMode(): GameMode {
     return this.mode;
   }
+
+  handleKey(key: string) {
+    // TODO : Configure and make configurable these keys like 'a'
+    if(this.mode === GameMode.Start && key.toLowerCase() === 'a') {
+      this.mode = GameMode.Level;
+    }
+  }
 }
