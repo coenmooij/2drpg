@@ -1,15 +1,20 @@
+import { Asset } from './asset.enum';
+import { ImageService } from './image.service';
 import { Settings } from './settings';
 
 export class Renderer {
   private canvas!: HTMLCanvasElement;
   private context!: CanvasRenderingContext2D;
+  private imageService!: ImageService;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.context = <CanvasRenderingContext2D>canvas.getContext('2d');
+    this.imageService = new ImageService();
+    this.imageService.loadImages();
   }
 
-  public renderFrame(frame: number): void {
+  public render(frame: number): void {
     this.clearCanvas();
     this.drawMap(frame);
     this.drawPlayer(frame);
@@ -20,8 +25,7 @@ export class Renderer {
   }
 
   private drawMap(frame: number): void {
-    const grassTile = new Image();
-    grassTile.src = 'assets/tiles/grass.png';
+    const grassTile = this.imageService.getImage(Asset.TileGrass);
 
     for (let x = 0; x < Settings.MapWidth; x += Settings.TileSize) {
       for (let y = 0; y < Settings.MapHeight; y += Settings.TileSize) {
@@ -31,10 +35,7 @@ export class Renderer {
   }
 
   private drawPlayer(frame: number): void {
-    // TODO : Don't create new images everytime, preload in html and create array of them in memory
-    //  e.g. sprites['player']['up'] = 'player_up.png';
-    const image = new Image();
-    image.src = 'assets/sprites/player_down.png';
+    const image = this.imageService.getImage(Asset.SpritePlayerDown);
 
     const numberOfEqualFrames = Settings.FPS / Settings.SpriteFPS;
     const currentPlayerFrame = Math.floor((frame - 1) / numberOfEqualFrames);

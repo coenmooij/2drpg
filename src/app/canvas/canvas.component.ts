@@ -46,7 +46,7 @@ export class CanvasComponent implements AfterViewInit {
     const currentFrame = Math.floor(milliseconds / millisecondsPerFrame) + 1;
 
     if (this.currentFrame !== currentFrame) {
-      this.renderer.renderFrame(currentFrame);
+      this.renderer.render(currentFrame);
       this.currentFrame = currentFrame;
     }
 
