@@ -1,6 +1,6 @@
 import { Overworld } from '../levels';
 import { Level } from './level.enum';
 
-export const Levels = {
+export const LEVELS = {
   [Level.Overworld]: Overworld,
 };

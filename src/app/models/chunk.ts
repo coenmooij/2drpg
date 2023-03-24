@@ -3,15 +3,17 @@ import { Settings } from '../settings';
 import { Tile } from './tile';
 
 export class Chunk {
-  tiles: Tile[][] = [];
+  private readonly tiles: Tile[][] = [];
 
-  // TODO : Change default asset to water
-  constructor(tiles: Tile[][], defaultAsset: Asset = Asset.TileGrass) {
+  constructor(tiles: Tile[][], defaultAsset: Asset = Asset.TileWater) {
     this.tiles = tiles;
-    for (let y = 0; y < Settings.ChunkHeight; y++) {
-      for (let x = 0; x < Settings.ChunkWidth; x++) {
-        if (!this.tiles[y][x]) {
-          this.tiles[y][x] = new Tile(defaultAsset);
+    for (let x = 0; x < Settings.ChunkHeight; x++) {
+      for (let y = 0; y < Settings.ChunkWidth; y++) {
+        if (!this.tiles[x]) {
+          this.tiles[x] = [];
+        }
+        if (!this.tiles[x][y]) {
+          this.tiles[x].push(new Tile(defaultAsset));
         }
       }
     }

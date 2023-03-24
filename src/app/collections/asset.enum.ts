@@ -1,4 +1,5 @@
 export enum Asset {
+  TileWater = 'tile_water',
   TileGrass = 'tile_grass',
   TileSand = 'tile_sand',
   SpritePlayerDown = 'sprite_player_down',

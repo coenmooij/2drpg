@@ -25,6 +25,11 @@ export class Game {
     }
   }
 
+  public handleFrame(frame: number): void {
+    // TODO : Update all resources in the current game
+    this.player.handleFrame(frame);
+  }
+
   private handleTitleScreen(key: string): void {
     if (key.toLowerCase() === 'a') {
       this.mode = GameMode.Level;
@@ -32,23 +37,21 @@ export class Game {
   }
 
   private handleLevel(key: string): void {
-    console.log('Key pressed: ', key); // TODO : Remove at some point
     switch (key) {
       case 'a':
+        this.player.interact();
+        break;
       case 'ArrowLeft':
-        this.player.startMoving(Direction.Left);
+        this.player.move(Direction.Left);
         break;
-      case 'w':
       case 'ArrowUp':
-        this.player.startMoving(Direction.Up);
+        this.player.move(Direction.Up);
         break;
-      case 's':
       case 'ArrowDown':
-        this.player.startMoving(Direction.Down);
+        this.player.move(Direction.Down);
         break;
-      case 'd':
       case 'ArrowRight':
-        this.player.startMoving(Direction.Right);
+        this.player.move(Direction.Right);
         break;
     }
   }

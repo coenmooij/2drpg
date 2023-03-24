@@ -1,5 +1,3 @@
-$canvasBaseSize: 256px;
-
 :host {
   display: flex;
   align-items: center;
@@ -15,5 +13,5 @@ $canvasBaseSize: 256px;
 }
 
 .canvas--has-side-borders {
-  width: calc(100vh / .5625);
+  width: 100vh;
 }

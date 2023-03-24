@@ -3,7 +3,7 @@ import { Game } from '../models';
 import { ContextService, RenderService } from '../services';
 import { Settings } from '../settings';
 
-const GAME_RATIO = .5625; // 9 / 16 for 16:9 ratio
+const GAME_RATIO = 1; // 9 / 16 = .5625 for 16:9 ratio
 
 @Component({
   selector: 'app-canvas',
@@ -62,6 +62,7 @@ export class CanvasComponent implements AfterViewInit {
 
     if (this.currentFrame !== currentFrame) {
       this.renderService.render(currentFrame);
+      this.game.handleFrame(currentFrame);
       this.currentFrame = currentFrame;
     }
 

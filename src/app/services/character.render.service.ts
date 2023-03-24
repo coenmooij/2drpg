@@ -12,26 +12,38 @@ export class CharacterRenderService {
   constructor(private contextService: ContextService, private imageService: ImageService) {
   }
 
-  public render(character: Character, frame: number) {
+  public render(character: Character, frame: number, isPlayer: boolean = false) {
     const direction = character.getDirection();
 
     // TODO : Make this more easier with combined sprite sheets per character (4x4)
     // TODO : Make based on the character, not always the player
     let asset = Asset.SpritePlayerDown;
+    let xOffset = 0;
+    let yOffset = 0;
     switch (direction) {
       case Direction.Up:
         asset = Asset.SpritePlayerUp;
+        yOffset = -character.getMovingOffset();
         break;
       case Direction.Left:
         asset = Asset.SpritePlayerLeft;
+        xOffset = -character.getMovingOffset();
         break;
       case Direction.Right:
         asset = Asset.SpritePlayerRight;
+        xOffset = character.getMovingOffset();
         break;
+      case Direction.Down:
+        yOffset = character.getMovingOffset();
+        break;
+    }
+    if(isPlayer) {
+      xOffset = 0;
+      yOffset = 0;
     }
     const image = this.imageService.getImage(asset);
 
-    const numberOfEqualFrames = Settings.FPS / Settings.SpriteFPS;
+    const numberOfEqualFrames = Settings.FPS / Settings.FramesPerSprite;
     const currentPlayerFrame = character.isMoving() ? Math.floor((frame - 1) / numberOfEqualFrames) : 0;
 
     const middleTileX = (Settings.MapWidth / 2) - (Settings.TileSize / 2);
@@ -43,8 +55,8 @@ export class CharacterRenderService {
       0,
       Settings.SpriteWidth,
       Settings.SpriteHeight,
-      middleTileX,
-      middleTileY - (Settings.SpriteHeight - Settings.TileSize),
+      middleTileX - xOffset,
+      middleTileY - (Settings.SpriteHeight - Settings.TileSize) - yOffset,
       Settings.SpriteWidth,
       Settings.SpriteHeight
     );

@@ -1,6 +1,9 @@
 import { Asset } from '../collections';
 
 export class Tile {
+  // private floorAsset: Asset;
+  private roofAsset?: Asset;
+
 
   constructor(private asset: Asset) {
   }
