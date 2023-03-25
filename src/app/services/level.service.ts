@@ -67,7 +67,7 @@ export class LevelService {
     const newTileLocation = this.copyLocation(tileLocation);
     if (tileLocation.x < Settings.TileSize - 1) {
       newTileLocation.x = tileLocation.x + 1;
-    } else if (chunkLocation.x < LEVELS[this.level].chunks[chunkLocation.x].length - 1) {
+    } else if (chunkLocation.x < LEVELS[this.level].chunks.length - 1) {
       newChunkLocation.x = chunkLocation.x + 1;
       newTileLocation.x = 0;
     } else {
@@ -81,7 +81,7 @@ export class LevelService {
     const newTileLocation = this.copyLocation(tileLocation);
     if (tileLocation.y < Settings.TileSize - 1) {
       newTileLocation.y = tileLocation.y + 1;
-    } else if (chunkLocation.y < LEVELS[this.level].chunks.length - 1) {
+    } else if (chunkLocation.y < LEVELS[this.level].chunks[chunkLocation.x].length - 1) {
       newChunkLocation.y = chunkLocation.y + 1;
       newTileLocation.y = 0;
     } else {
