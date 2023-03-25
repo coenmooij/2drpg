@@ -11,7 +11,6 @@ export class Character {
 
   private subAnimationFrame: number = 0;
   private direction: Direction = Direction.Down;
-  private nextMove?: Direction;
   private movementPPF: number = Settings.WalkingPPF;
   private nextMovementPPF?: number;
 
@@ -19,21 +18,16 @@ export class Character {
     return this.direction;
   }
 
-  public handleFrame(directionPressed?: Direction): void {
-    // Start moving if we're not moving
-    if (!this.isMoving && !!directionPressed) {
-      this.startMoving(directionPressed);
-    }
-
+  public keepMoving(): void {
     // Animation frames
     if (this.isMoving) {
-      this.subAnimationFrame++;
-
-      if (this.subAnimationFrame === 4) {
-        this.animationFrame++;
-        this.subAnimationFrame = 0;
-        if (this.animationFrame === 4) { // TODO : Take into account other frames per sprite ratios
+      this.subAnimationFrame--;
+      if (this.subAnimationFrame === 0) {
+        this.subAnimationFrame = 4;
+        this.animationFrame--;
+        if (this.animationFrame === 0) { // TODO : Take into account other frames per sprite ratios
           this.animationFrame = 0;
+          this.isMoving = false;
         }
       }
     }
@@ -55,27 +49,15 @@ export class Character {
   }
 
 
-  private startMoving(direction: Direction): void {
+  public move(direction: Direction): void {
     this.direction = direction;
     this.isMoving = true;
-    this.movingOffset = Settings.TileSize;
+    this.animationFrame = 3;
+    this.subAnimationFrame = 3; // TODO : depends speed?
+  }
 
-    // TODO : Check collission
-    // TODO : Move chunks
-    switch (direction) {
-      case Direction.Left:
-        this.tileLocation.x--;
-        break;
-      case Direction.Right:
-        this.tileLocation.x++;
-        break;
-      case Direction.Up:
-        this.tileLocation.y--;
-        break;
-      case Direction.Down:
-        this.tileLocation.y++;
-        break;
-    }
+  public onLocationUpdated(): void {
+    this.movingOffset = Settings.TileSize;
   }
 
   public startRunning(): void {

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Inject, ViewChild } from '@angular/core';
-import { Game } from '../models';
+import { Controller, Game } from '../models';
 import { ContextService, RenderService } from '../services';
 import { Settings } from '../settings';
 
@@ -18,17 +18,17 @@ export class CanvasComponent implements AfterViewInit {
 
   @HostListener('document:keypress', ['$event'])
   public documentKeyPress(event: KeyboardEvent): void {
-    this.game.handleKeyPress(event.key);
+    this.controller.handleKeyPress(event.key);
   }
 
   @HostListener('document:keydown', ['$event'])
   public documentKeyDown(event: KeyboardEvent): void {
-    this.game.handleKeyDown(event.key);
+    this.controller.handleKeyDown(event.key);
   }
 
   @HostListener('document:keyup', ['$event'])
   public documentKeyUp(event: KeyboardEvent): void {
-    this.game.handleKeyUp(event.key);
+    this.controller.handleKeyUp(event.key);
   }
 
   @ViewChild('canvas') public canvasReference!: ElementRef<HTMLCanvasElement>;
@@ -37,12 +37,13 @@ export class CanvasComponent implements AfterViewInit {
 
   private currentFrame: number = 0; // 0 initial, when running between 1 - FPS
 
-  constructor(@Inject('Window')
-              private window: Window,
-              private renderService: RenderService,
-              private contextService: ContextService,
-              private game: Game) {
-  }
+  constructor(
+    @Inject('Window') private window: Window,
+    private renderService: RenderService,
+    private contextService: ContextService,
+    private controller: Controller,
+    private game: Game
+  ) {}
 
   public ngAfterViewInit(): void {
     setTimeout(() => this.onResize());
@@ -68,7 +69,8 @@ export class CanvasComponent implements AfterViewInit {
 
     if (this.currentFrame !== currentFrame) {
       this.renderService.render(currentFrame);
-      this.game.handleFrame(currentFrame);
+      this.controller.move();
+      this.game.handleFrame();
       this.currentFrame = currentFrame;
     }
 
