@@ -5,29 +5,44 @@ import { Player } from './player';
 @Injectable({providedIn: 'root'})
 export class Game {
 
-  private mode: GameMode = GameMode.Start;
+  public mode: GameMode = GameMode.Level; // TODO : Set back to start eventually
+  private arrowPressed?: Direction;
+  private isShiftPressed: boolean = false;
 
-  constructor(private player: Player) {}
-
-
-  public getMode(): GameMode {
-    return this.mode;
+  constructor(private player: Player) {
   }
 
-  public handleKey(key: string): void {
+  public handleKeyPress(key: string) {
+    // TODO : First check key, then switch to mode
     switch (this.mode) {
       case GameMode.Start:
         this.handleTitleScreen(key);
         break;
       case GameMode.Level:
-        this.handleLevel(key);
+        this.handleLevelKeyPress(key);
+        break;
+    }
+  }
+
+  public handleKeyDown(key: string): void {
+    switch (this.mode) {
+      case GameMode.Level:
+        this.handleLevelKeyDown(key);
+        break;
+    }
+  }
+
+  public handleKeyUp(key: string): void {
+    switch (this.mode) {
+      case GameMode.Level:
+        this.handleLevelKeyUp(key);
         break;
     }
   }
 
   public handleFrame(frame: number): void {
     // TODO : Update all resources in the current game
-    this.player.handleFrame(frame);
+    this.player.handleFrame(this.arrowPressed);
   }
 
   private handleTitleScreen(key: string): void {
@@ -36,23 +51,57 @@ export class Game {
     }
   }
 
-  private handleLevel(key: string): void {
+  private handleLevelKeyPress(key: string): void {
     switch (key) {
       case 'a':
         this.player.interact();
         break;
+    }
+  }
+
+  private handleLevelKeyDown(key: string): void {
+    switch (key) {
+      case 'Shift':
+        if (!this.isShiftPressed) {
+          this.isShiftPressed = true;
+          this.player.startRunning();
+        }
+        break;
       case 'ArrowLeft':
-        this.player.move(Direction.Left);
+        this.arrowPressed = Direction.Left;
         break;
       case 'ArrowUp':
-        this.player.move(Direction.Up);
+        this.arrowPressed = Direction.Up;
         break;
       case 'ArrowDown':
-        this.player.move(Direction.Down);
+        this.arrowPressed = Direction.Down;
         break;
       case 'ArrowRight':
-        this.player.move(Direction.Right);
+        this.arrowPressed = Direction.Right;
         break;
+    }
+  }
+
+  private handleLevelKeyUp(key: string): void {
+    switch (key) {
+      case 'Shift':
+        this.isShiftPressed = false;
+        this.player.stopRunning();
+        break;
+      case 'ArrowLeft':
+        return this.stopDirection(Direction.Left);
+      case 'ArrowUp':
+        return this.stopDirection(Direction.Up);
+      case 'ArrowDown':
+        return this.stopDirection(Direction.Down);
+      case 'ArrowRight':
+        return this.stopDirection(Direction.Right);
+    }
+  }
+
+  private stopDirection(direction: Direction): void {
+    if (this.arrowPressed === direction) {
+      this.arrowPressed = undefined;
     }
   }
 }

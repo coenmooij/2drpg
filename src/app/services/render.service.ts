@@ -21,7 +21,7 @@ export class RenderService {
 
   public render(frame: number): void {
     this.clearCanvas();
-    switch (this.game.getMode()) {
+    switch (this.game.mode) {
       case GameMode.Level:
         this.renderGame(frame);
         break;

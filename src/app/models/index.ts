@@ -3,3 +3,4 @@ export * from './chunk';
 export * from './game';
 export * from './player';
 export * from './tile';
+export * from './npc';

@@ -16,9 +16,19 @@ export class CanvasComponent implements AfterViewInit {
     this.onResize();
   }
 
+  @HostListener('document:keypress', ['$event'])
+  public documentKeyPress(event: KeyboardEvent): void {
+    this.game.handleKeyPress(event.key);
+  }
+
   @HostListener('document:keydown', ['$event'])
-  public documentKeypress(event: KeyboardEvent): void {
-    this.handleInput(event.key);
+  public documentKeyDown(event: KeyboardEvent): void {
+    this.game.handleKeyDown(event.key);
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  public documentKeyUp(event: KeyboardEvent): void {
+    this.game.handleKeyUp(event.key);
   }
 
   @ViewChild('canvas') public canvasReference!: ElementRef<HTMLCanvasElement>;
@@ -40,10 +50,6 @@ export class CanvasComponent implements AfterViewInit {
     this.contextService.loadContext(<CanvasRenderingContext2D>this.canvasReference.nativeElement.getContext('2d'));
 
     this.requestAnimationFrame();
-  }
-
-  private handleInput(key: string): void {
-    this.game.handleKey(key);
   }
 
   private onResize(): void {

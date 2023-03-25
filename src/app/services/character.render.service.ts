@@ -23,18 +23,18 @@ export class CharacterRenderService {
     switch (direction) {
       case Direction.Up:
         asset = Asset.SpritePlayerUp;
-        yOffset = -character.getMovingOffset();
+        yOffset = -character.movingOffset;
         break;
       case Direction.Left:
         asset = Asset.SpritePlayerLeft;
-        xOffset = -character.getMovingOffset();
+        xOffset = -character.movingOffset;
         break;
       case Direction.Right:
         asset = Asset.SpritePlayerRight;
-        xOffset = character.getMovingOffset();
+        xOffset = character.movingOffset;
         break;
       case Direction.Down:
-        yOffset = character.getMovingOffset();
+        yOffset = character.movingOffset;
         break;
     }
     if(isPlayer) {
@@ -44,7 +44,7 @@ export class CharacterRenderService {
     const image = this.imageService.getImage(asset);
 
     const numberOfEqualFrames = Settings.FPS / Settings.FramesPerSprite;
-    const currentPlayerFrame = character.isMoving() ? Math.floor((frame - 1) / numberOfEqualFrames) : 0;
+    const currentPlayerFrame = character.animationFrame;
 
     const middleTileX = (Settings.MapWidth / 2) - (Settings.TileSize / 2);
     const middleTileY = (Settings.MapHeight / 2) - (Settings.TileSize / 2);

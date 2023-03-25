@@ -12,7 +12,7 @@ export class LevelService {
 
   /** @returns 3x3 chunks */
   public getChunks(): Chunk[][] {
-    const playerChunk: LocationInterface = this.player.getChunkLocation();
+    const playerChunk: LocationInterface = this.player.chunkLocation;
 
     const chunks: Chunk[][] = [];
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Asset } from '../collections';
 import { Direction } from '../enums';
 import { LocationInterface } from '../interfaces';
 import { Chunk, Player, Tile } from '../models';
@@ -33,27 +32,25 @@ export class MapRenderService {
 
     switch (this.player.getDirection()) {
       case Direction.Up:
-        yOffset -= this.player.getMovingOffset();
+        yOffset -= this.player.movingOffset;
         break;
       case Direction.Left:
-        xOffset -= this.player.getMovingOffset();
+        xOffset -= this.player.movingOffset;
         break;
       case Direction.Right:
-        xOffset += this.player.getMovingOffset();
+        xOffset += this.player.movingOffset;
         break;
       case Direction.Down:
-        yOffset += this.player.getMovingOffset();
+        yOffset += this.player.movingOffset;
         break;
     }
-
-    // TODO : Player Movement offset
 
     // Take into account player always stands in the middle chunk
     xOffset -= Settings.ChunkWidth * Settings.TileSize;
     yOffset -= Settings.ChunkHeight * Settings.TileSize;
 
     // Calculate player tile offset
-    const tileLocation: LocationInterface = this.player.getTileLocation();
+    const tileLocation: LocationInterface = this.player.tileLocation;
     xOffset += ((Settings.TileSize / 2) - tileLocation.x) * Settings.TileSize;
     yOffset += ((Settings.TileSize / 2) - tileLocation.y) * Settings.TileSize;
 
