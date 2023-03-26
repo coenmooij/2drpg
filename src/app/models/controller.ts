@@ -7,8 +7,9 @@ import { Player } from './player';
 @Injectable({providedIn: 'root'})
 export class Controller {
 
-  private arrowPressed?: Direction;
+  private arrowsPressed: Direction[] = [];
   private isShiftPressed: boolean = false;
+  private isControlPressed: boolean = false;
 
   constructor(private levelService: LevelService, private game: Game, private player: Player) {
   }
@@ -43,9 +44,10 @@ export class Controller {
 
   public move(): void {
     // Start moving if we're not moving
-    if (!this.player.isMoving && !!this.arrowPressed) {
-      this.player.move(this.arrowPressed);
-      if (this.levelService.canMoveTo(this.player.chunkLocation, this.player.tileLocation, this.arrowPressed)) {
+    if (!this.player.isMoving && this.arrowsPressed.length > 0) {
+      const currentDirection: Direction = this.arrowsPressed[0];
+      this.player.move(currentDirection);
+      if (this.levelService.canMoveTo(this.player.chunkLocation, this.player.tileLocation, currentDirection)) {
         this.player.onLocationUpdated();
       }
     } else {
@@ -76,17 +78,13 @@ export class Controller {
         }
         break;
       case 'ArrowLeft':
-        this.arrowPressed = Direction.Left;
-        break;
+        return this.startDirection(Direction.Left);
       case 'ArrowUp':
-        this.arrowPressed = Direction.Up;
-        break;
+        return this.startDirection(Direction.Up);
       case 'ArrowDown':
-        this.arrowPressed = Direction.Down;
-        break;
+        return this.startDirection(Direction.Down);
       case 'ArrowRight':
-        this.arrowPressed = Direction.Right;
-        break;
+        return this.startDirection(Direction.Right);
     }
   }
 
@@ -107,9 +105,18 @@ export class Controller {
     }
   }
 
-  private stopDirection(direction: Direction): void {
-    if (this.arrowPressed === direction) {
-      this.arrowPressed = undefined;
+  private startDirection(direction: Direction): void {
+    if (this.arrowsPressed.includes(direction)) {
+      return;
     }
+    this.arrowsPressed.push(direction);
+  }
+
+  private stopDirection(direction: Direction): void {
+    const index = this.arrowsPressed.indexOf(direction);
+    if (index < 0) {
+      return;
+    }
+    this.arrowsPressed.splice(index, 1);
   }
 }
